@@ -1,0 +1,13 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from citrack_ros_msgs/msg/MultiTags.msg
+// generated code does not contain a copyright notice
+
+#include "citrack_ros_msgs/msg/CustomTag.idl"
+
+module citrack_ros_msgs {
+  module msg {
+    struct MultiTags {
+      sequence<citrack_ros_msgs::msg::CustomTag> tags_list;
+    };
+  };
+};

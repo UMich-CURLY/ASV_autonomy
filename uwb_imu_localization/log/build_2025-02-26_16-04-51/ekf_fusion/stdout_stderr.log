@@ -1,0 +1,24 @@
+running develop
+running egg_info
+creating ekf_fusion.egg-info
+writing ekf_fusion.egg-info/PKG-INFO
+writing dependency_links to ekf_fusion.egg-info/dependency_links.txt
+writing entry points to ekf_fusion.egg-info/entry_points.txt
+writing requirements to ekf_fusion.egg-info/requires.txt
+writing top-level names to ekf_fusion.egg-info/top_level.txt
+writing manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+reading manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+writing manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/python3.10/site-packages/ekf-fusion.egg-link (link to .)
+Installing ekf_fusion_node script to /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/ekf_fusion
+
+Installed /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion
+running symlink_data
+creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index
+creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index
+creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index/packages
+symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/resource/ekf_fusion -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index/packages
+symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/package.xml -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion
+creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion/launch
+symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/launch/ekf_fusion.launch.py -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion/launch

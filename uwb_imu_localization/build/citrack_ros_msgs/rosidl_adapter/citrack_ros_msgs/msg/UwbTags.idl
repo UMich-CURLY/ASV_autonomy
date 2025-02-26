@@ -1,0 +1,16 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from citrack_ros_msgs/msg/UwbTags.msg
+// generated code does not contain a copyright notice
+
+#include "citrack_ros_msgs/msg/UwbTag.idl"
+#include "std_msgs/msg/Header.idl"
+
+module citrack_ros_msgs {
+  module msg {
+    struct UwbTags {
+      std_msgs::msg::Header header;
+
+      sequence<citrack_ros_msgs::msg::UwbTag> tags;
+    };
+  };
+};

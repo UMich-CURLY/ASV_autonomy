@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: uwb-tracking-ros2
+Version: 0.0.0
+Summary: UWB Tracking in ROS2.
+Home-page: UNKNOWN
+Author: Lauritz Keysberg, Cung Lian Sang
+Author-email: lkeysberg@techfak.uni-bielefeld.de, csang@techfak.uni-bielefeld.de
+Maintainer: ROS 2 Developer
+Maintainer-email: ros2@ros.com
+License: MIT
+Platform: UNKNOWN
+
+UNKNOWN
+

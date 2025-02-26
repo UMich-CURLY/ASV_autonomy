@@ -1,0 +1,17 @@
+{
+  "package_name": "citrack_ros_msgs",
+  "non_idl_tuples": [
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/ViconPosition.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/UwbAnchor.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/UwbTag.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/UwbTags.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/UwbRange.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/DarknetBoundingBox.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/DarknetBoundingBoxes.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/DarknetObjectCount.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/RvizBirdsEyeParam.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/CustomTag.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:msg/MultiTags.msg",
+    "/home/asv/asv_autonomy/uwb_imu_localization/src/uwb/citrack_ros_msgs:action/DarknetCheckForObjects.action"
+  ]
+}

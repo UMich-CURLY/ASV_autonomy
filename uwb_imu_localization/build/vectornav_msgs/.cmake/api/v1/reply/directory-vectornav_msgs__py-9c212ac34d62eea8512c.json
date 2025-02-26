@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "vectornav_msgs__py",
+		"source" : "/home/asv/asv_autonomy/uwb_imu_localization/build/vectornav_msgs/vectornav_msgs__py"
+	}
+}

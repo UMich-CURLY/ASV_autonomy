@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/asv/asv_autonomy/uwb_imu_localization/build/vectornav_msgs/rosidl_generator_py/vectornav_msgs/vectornav_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" "TARGETS" "vectornav_msgs__rosidl_typesupport_c__pyext" "DESTINATION" "lib/python3.10/site-packages/vectornav_msgs")

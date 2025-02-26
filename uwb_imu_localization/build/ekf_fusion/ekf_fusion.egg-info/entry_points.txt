@@ -1,0 +1,3 @@
+[console_scripts]
+ekf_fusion_node = ekf_fusion.ekf_fusion_node:main
+

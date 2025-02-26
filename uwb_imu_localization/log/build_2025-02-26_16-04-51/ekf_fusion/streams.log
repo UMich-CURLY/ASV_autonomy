@@ -1,0 +1,26 @@
+[1.771s] Invoking command in '/home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion': CONDA_PROMPT_MODIFIER=(asv_localization) PYTHONPATH=/home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/build --no-deps symlink_data
+[2.327s] running develop
+[2.664s] running egg_info
+[2.665s] creating ekf_fusion.egg-info
+[2.665s] writing ekf_fusion.egg-info/PKG-INFO
+[2.665s] writing dependency_links to ekf_fusion.egg-info/dependency_links.txt
+[2.666s] writing entry points to ekf_fusion.egg-info/entry_points.txt
+[2.666s] writing requirements to ekf_fusion.egg-info/requires.txt
+[2.666s] writing top-level names to ekf_fusion.egg-info/top_level.txt
+[2.666s] writing manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+[2.671s] reading manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+[2.672s] writing manifest file 'ekf_fusion.egg-info/SOURCES.txt'
+[2.676s] running build_ext
+[2.676s] Creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/python3.10/site-packages/ekf-fusion.egg-link (link to .)
+[2.679s] Installing ekf_fusion_node script to /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/ekf_fusion
+[2.681s] 
+[2.681s] Installed /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion
+[2.681s] running symlink_data
+[2.682s] creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index
+[2.682s] creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index
+[2.683s] creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index/packages
+[2.683s] symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/resource/ekf_fusion -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ament_index/resource_index/packages
+[2.683s] symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/package.xml -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion
+[2.684s] creating /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion/launch
+[2.684s] symbolically linking /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/launch/ekf_fusion.launch.py -> /home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/share/ekf_fusion/launch
+[2.778s] Invoked command in '/home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion' returned '0': CONDA_PROMPT_MODIFIER=(asv_localization) PYTHONPATH=/home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asv/asv_autonomy/uwb_imu_localization/install/ekf_fusion/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/asv/asv_autonomy/uwb_imu_localization/build/ekf_fusion/build --no-deps symlink_data

@@ -1,0 +1,32 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from citrack_ros_msgs/action/DarknetCheckForObjects.action
+// generated code does not contain a copyright notice
+
+#include "citrack_ros_msgs/msg/DarknetBoundingBoxes.idl"
+#include "sensor_msgs/msg/Image.idl"
+
+module citrack_ros_msgs {
+  module action {
+    @verbatim (language="comment", text=
+      "Check if objects in image")
+    struct DarknetCheckForObjects_Goal {
+      @verbatim (language="comment", text=
+        "Goal definition")
+      int16 id;
+
+      sensor_msgs::msg::Image image;
+    };
+    @verbatim (language="comment", text=
+      "Result definition")
+    struct DarknetCheckForObjects_Result {
+      int16 id;
+
+      citrack_ros_msgs::msg::DarknetBoundingBoxes bounding_boxes;
+    };
+    @verbatim (language="comment", text=
+      "Feedback definition")
+    struct DarknetCheckForObjects_Feedback {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};

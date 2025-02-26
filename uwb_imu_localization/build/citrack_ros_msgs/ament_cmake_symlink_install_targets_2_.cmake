@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/asv/asv_autonomy/uwb_imu_localization/build/citrack_ros_msgs/rosidl_generator_py/citrack_ros_msgs/citrack_ros_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" "TARGETS" "citrack_ros_msgs__rosidl_typesupport_c__pyext" "DESTINATION" "lib/python3.10/site-packages/citrack_ros_msgs")

@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/asv/asv_autonomy/uwb_imu_localization/build/vectornav/libvectornav_lib.so" "/home/asv/asv_autonomy/uwb_imu_localization/build/vectornav/libvn_sensor_msgs_lib.so" "TARGETS" "vectornav_lib" "vn_sensor_msgs_lib" "DESTINATION" "lib")
