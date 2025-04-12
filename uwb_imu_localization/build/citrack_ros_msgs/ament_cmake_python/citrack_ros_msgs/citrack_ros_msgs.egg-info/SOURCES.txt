@@ -1,6 +1,0 @@
-setup.py
-citrack_ros_msgs/__init__.py
-citrack_ros_msgs.egg-info/PKG-INFO
-citrack_ros_msgs.egg-info/SOURCES.txt
-citrack_ros_msgs.egg-info/dependency_links.txt
-citrack_ros_msgs.egg-info/top_level.txt

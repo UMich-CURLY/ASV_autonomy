@@ -1,9 +1,0 @@
-source;share/uwb_tracking_ros2/hook/pythonpath.ps1
-source;share/uwb_tracking_ros2/hook/pythonpath.dsv
-source;share/uwb_tracking_ros2/hook/pythonpath.sh
-source;share/uwb_tracking_ros2/hook/ament_prefix_path.ps1
-source;share/uwb_tracking_ros2/hook/ament_prefix_path.dsv
-source;share/uwb_tracking_ros2/hook/ament_prefix_path.sh
-source;../../build/uwb_tracking_ros2/share/uwb_tracking_ros2/hook/pythonpath_develop.ps1
-source;../../build/uwb_tracking_ros2/share/uwb_tracking_ros2/hook/pythonpath_develop.dsv
-source;../../build/uwb_tracking_ros2/share/uwb_tracking_ros2/hook/pythonpath_develop.sh

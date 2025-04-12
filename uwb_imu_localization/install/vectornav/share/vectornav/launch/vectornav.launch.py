@@ -1,1 +1,0 @@
-/home/asv/asv_autonomy/uwb_imu_localization/src/vectornav/vectornav/launch/vectornav.launch.py
