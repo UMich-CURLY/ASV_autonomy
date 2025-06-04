@@ -2,11 +2,11 @@
 
 
 ## To setup:
-'''
+```
 git clone git@github.com:UMich-CURLY/ASV_autonomy.git
 cd ASV_autonomy
 git submodule update --init --recursive
-'''
+```
 
 - After that follow the individual repos for installation<br>
 
