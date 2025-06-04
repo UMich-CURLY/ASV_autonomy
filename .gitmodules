@@ -1,0 +1,6 @@
+[submodule "ASV_localization"]
+	path = ASV_localization
+	url = git@github.com:UMich-CURLY/ASV_localization.git
+[submodule "ASV_perception"]
+	path = ASV_perception
+	url = git@github.com:UMich-CURLY/ASV_perception.git

@@ -1,14 +1,15 @@
 # ASV_autonomy
 
 
-## To build:
+## To setup:
+'''
+git clone git@github.com:UMich-CURLY/ASV_autonomy.git
+cd ASV_autonomy
+git submodule update --init --recursive
+'''
 
-colcon build --symlink-install
-source install/setup.bash
+- After that follow the individual repos for installation<br>
 
-## To launch:
-ros2 launch ekf_fusion ekf_fusion.launch.py
+- The directory xbox_cont has the python scripts needed for manual control of the BlueBoat using XBox controller (over WiFi network)...for more info see the [documentation](https://docs.google.com/document/d/1lDcPFRf4EiQoDkyhsRgK8ujxOWbpbkCu5Q0oAkFZEUc/edit?usp=drive_link).
 
-or 
 
-python uwb_imu_localization/src/ekf_fusion/ekf_fusion/imu_yaw_publisher.py
