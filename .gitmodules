@@ -1,6 +1,8 @@
 [submodule "ASV_localization"]
 	path = ASV_localization
 	url = git@github.com:UMich-CURLY/ASV_localization.git
+	branch = ros2
 [submodule "ASV_perception"]
 	path = ASV_perception
 	url = git@github.com:UMich-CURLY/ASV_perception.git
+	branch = ros2_grounded_sam2
