@@ -1,0 +1,380 @@
+<?xml version="1.0"?>
+<robot name="blueboat_urdf">
+  
+  <!-- Base link: combined hulls + sensor suite inertial at true CG -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="25.05"/>
+      <inertia
+        ixx="2.42369"  ixy="0"    ixz="0"
+        iyy="3.9235025"  iyz="0"    izz="5.6403125"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/base_link.stl"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.1 0.1 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- IMU link at its real mount offset -->
+  <link name="imu_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.003"/>
+      <inertia
+        ixx="2.068e-07" ixy="0" ixz="0"
+        iyy="4.002e-07" iyz="0" izz="2.071e-07"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/imu.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/imu.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_to_imu" type="fixed">
+    <origin xyz="0.308523 0 0.046" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="imu_link"/>
+  </joint>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <update_rate>100</update_rate>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.009</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.021</stddev></noise></z>
+        </linear_acceleration>
+        <orientation_reference_frame>
+          <localization>ENU</localization>
+        </orientation_reference_frame>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <!-- Camera Link -->
+  <link name="camera">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.3"/>
+      <inertia
+        ixx="0.000045" ixy="0" ixz="0"
+        iyy="0.0001746" iyz="0" izz="0.0001746"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/camera.stl"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/camera.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.371923 0 0.263063" rpy="0 0 3.14159"/>
+    <parent link="base_link"/>
+    <child  link="camera"/>
+  </joint>
+
+  <link name="camera_optical_frame"/>
+  <joint name="camera_to_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 -1.5708 -1.5708"/>
+    <parent link="camera"/>
+    <child  link="camera_optical_frame"/>
+  </joint>
+  <gazebo reference="camera_optical_frame">
+    <sensor name="camera_sensor" type="camera">
+      <update_rate>30.0</update_rate>
+      <camera name="camera_camera">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image><width>1280</width><height>720</height><format>R8G8B8</format></image>
+        <clip><near>0.05</near><far>400</far></clip>
+        <noise><type>gaussian</type><mean>0</mean><stddev>0.007</stddev></noise>
+      </camera>
+    </sensor>
+  </gazebo>
+
+  <!-- LiDAR Link -->
+  <link name="lidar">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.2"/>
+      <inertia
+        ixx="0.0016461" ixy="0" ixz="0"
+        iyy="0.00068086" iyz="0" izz="0.0016702"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/lidar.stl"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.79216 0.81961 0.93333 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/lidar.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0.308523 0 0.398063" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="lidar"/>
+  </joint>
+
+  <gazebo reference="lidar">
+    <sensor name="lidar_sensor" type="gpu_ray">
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal><samples>1875</samples><resolution>1</resolution><min_angle>-3.1416</min_angle><max_angle>3.1416</max_angle></horizontal>
+          <vertical><samples>16</samples><resolution>1</resolution><min_angle>-0.2618</min_angle><max_angle>0.2618</max_angle></vertical>
+        </scan>
+        <range><min>0.1</min><max>130</max></range>
+        <noise><type>gaussian</type><mean>0</mean><stddev>0.01</stddev></noise>
+      </ray>
+    </sensor>
+  </gazebo>
+
+  <!-- GPS Link -->
+  <link name="gps">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.7"/>
+      <inertia
+        ixx="0.00088253" ixy="0" ixz="0"
+        iyy="0.0016632" iyz="0" izz="0.00088253"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/gps.stl"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/gps.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="gps_joint" type="fixed">
+    <origin xyz="-0.16979 0 0.205063" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="gps"/>
+  </joint>
+  <gazebo reference="gps">
+    <sensor name="navsat" type="navsat">
+      <always_on>1</always_on>
+      <update_rate>20</update_rate>
+    </sensor>
+  </gazebo>
+
+  <!-- Thruster Links -->
+  <link name="port_prop">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="1e-6" ixy="0" ixz="0"
+        iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/port_prop.stl"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/port_prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="port_prop_joint" type="continuous">
+    <origin xyz="-0.512309 0.298214 -0.244308" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="port_prop"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.02"/>
+  </joint>
+
+  <link name="stbd_prop">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="1e-6" ixy="0" ixz="0"
+        iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/stbd_prop.stl"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://src/vrx_urdf/draft_blueboat/meshes/stbd_prop.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="stbd_prop_joint" type="continuous">
+    <origin xyz="-0.512309 -0.298214 -0.244308" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="stbd_prop"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.02"/>
+  </joint>
+
+  <!-- Gazebo plugins: thrusters, buoyancy, hydrodynamics, odometry -->
+  <gazebo>
+  <!-- Port Thruster -->
+  <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+    <joint_name>port_prop_joint</joint_name>
+    <thrust_coefficient>0.0015336</thrust_coefficient>  
+    <fluid_density>1000</fluid_density>
+    <propeller_diameter>0.112</propeller_diameter>   
+    <velocity_control>true</velocity_control>       
+    <max_thrust_cmd>20.0</max_thrust_cmd>           
+    <min_thrust_cmd>-12.0</min_thrust_cmd> 
+    <wake_fraction>0.3</wake_fraction>         
+    <deadband>0.0</deadband>                       
+    <namespace>wamv</namespace>
+    <topic>thrusters/left/thrust</topic>
+    <name>left</name>
+  </plugin>
+
+    <!-- Starboard Thruster -->
+    <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+      <joint_name>stbd_prop_joint</joint_name>
+      <thrust_coefficient>-0.0015336</thrust_coefficient>   <!-- Same as port -->
+      <fluid_density>1000</fluid_density>
+      <propeller_diameter>0.112</propeller_diameter>
+      <velocity_control>true</velocity_control>
+      <max_thrust_cmd>20.0</max_thrust_cmd>           
+      <min_thrust_cmd>-12.0</min_thrust_cmd>   
+      <wake_fraction>0.3</wake_fraction>                  
+      <deadband>0.0</deadband>                        
+      <namespace>wamv</namespace>
+      <topic>thrusters/right/thrust</topic>
+      <name>right</name>
+    </plugin>
+
+    <!-- Base link for buoyancy -->
+    <plugin filename="libSurface.so" name="vrx::Surface">
+      <link_name>base_link</link_name>
+      <hull_length>1.2</hull_length>
+      <hull_radius>0.17</hull_radius>
+      <fluid_level> 0 </fluid_level>
+      <points>
+        <point>-0.4408  0.333203  -0.188324</point>
+        <point> 0.7592  0.333203  -0.188324</point>
+      </points>
+      <wavefield>
+        <topic>/vrx/wavefield/parameters</topic>
+      </wavefield>
+    </plugin>
+
+    <!-- Starboard hull surface for buoyancy -->
+    <plugin filename="libSurface.so" name="vrx::Surface">
+      <link_name>base_link</link_name>
+      <hull_length>1.2</hull_length>
+      <hull_radius>0.17</hull_radius>
+      <fluid_level> 0 </fluid_level>
+      <points>
+        <point>-0.4408  -0.333203  -0.188324</point>
+        <point> 0.7592  -0.333203  -0.188324</point>
+      </points>
+      <wavefield>
+        <topic>/vrx/wavefield/parameters</topic>
+      </wavefield>
+    </plugin>
+        <!-- Combined hydrodynamics about COM -->
+    <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+      <link_name>base_link</link_name>
+      <thrusters>
+        <thruster>
+          <joint>port_prop_joint</joint>
+          <position>-0.512309 0.298214 -0.244308</position>
+          <direction>1 0 0</direction>
+        </thruster>
+        <thruster>
+          <joint>stbd_prop_joint</joint>
+          <position>-0.512309 -0.298214 -0.244308</position>
+          <direction>1 0 0</direction>
+        </thruster>
+      </thrusters>
+
+    <!--Hydrodynamic coefficients-->
+      <xDotU>-5.68</xDotU>     <!--Added mass in surge -->
+      <yDotV>-2.0</yDotV>      <!--Added mass in sway -->
+      <nDotR>-2.0</nDotR>      <!--Added mass in yaw -->
+      <xU>-35.0</xU>          <!--Linear drag in surge -->
+      <xAbsU>40.0</xAbsU>     <!--Quadratic drag in surge -->
+      <yV>-45.0</yV>          <!--Linear drag in sway -->
+      <yAbsV>45.0</yAbsV>     <!--Quadratic drag in sway -->
+      <zW>-30.0</zW>          <!--Linear drag in heave (not relevant for 3-DOF)-->
+      <kP>-30.0</kP>           <!-- Linear drag in roll (not relevant for 3-DOF)-->
+      <mQ>-30.0</mQ>           <!-- Linear drag in pitch (not relevant for 3-DOF)-->
+      <nR>-20.0</nR>          <!-- Linear drag in yaw --> 
+      <nAbsR>-25.0</nAbsR>    <!--Quadratic drag in yaw -->
+    
+    </plugin>
+
+
+    <!-- Odometry about COM frame -->
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <dimensions>3</dimensions>
+      <odom_publish_frequency>10.0</odom_publish_frequency>
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>  
+    </plugin>
+  </gazebo>
+
+</robot>

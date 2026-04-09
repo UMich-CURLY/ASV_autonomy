@@ -1,0 +1,20 @@
+# RealSense launch parameters consumed by rs_launch.py via config_file.
+# Namespace and camera name are passed by the host launcher script.
+# Keep camera_name as "camera" in the launcher so the wrapper publishes
+# camera_link -> camera_*_frame -> camera_*_optical_frame under the same
+# root frame name used by the Blueboat Xacro.
+serial_no: "043422250502"
+enable_color: true
+enable_depth: true
+enable_sync: true
+align_depth.enable: true
+pointcloud.enable: false
+enable_accel: false
+enable_gyro: false
+publish_tf: true
+tf_publish_rate: 0.0
+rgb_camera.color_profile: "1280x720x30"
+depth_module.depth_profile: "1280x720x30"
+depth_module.infra_profile: "848x480x30"
+wait_for_device_timeout: 10.0
+reconnect_timeout: 6.0

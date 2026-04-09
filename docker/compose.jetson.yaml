@@ -1,0 +1,40 @@
+services:
+  asv_dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.jetson
+    image: asv_autonomy:jp6.2.1
+    container_name: asv_dev
+    network_mode: host
+    ipc: host
+    stdin_open: true
+    tty: true
+    command: bash -lc "sleep infinity"
+    env_file:
+      - ./ros.env
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ../bags:/opt/asv/bags
+      - ../config:/opt/asv/config
+      - ../logs:/opt/asv/logs
+      - ../scripts:/opt/asv/scripts
+      - ../urdf:/opt/asv/urdf
+      - perception_venv:/opt/asv/.venvs
+      - sam2_checkpoints:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/checkpoints
+      - gdino_checkpoints:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/gdino_checkpoints
+      - huggingface_cache:/root/.cache/huggingface
+
+volumes:
+  perception_venv:
+  sam2_checkpoints:
+  gdino_checkpoints:
+  huggingface_cache:
