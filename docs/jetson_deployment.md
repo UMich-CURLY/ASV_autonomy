@@ -83,11 +83,20 @@ The container now persists critical perception state using Docker volumes:
 - `gdino_checkpoints` -> `/opt/asv/src/ASV_perception/EndToEnd/Segmentation/gdino_checkpoints`
 - `huggingface_cache` -> `/root/.cache/huggingface`
 
+The active perception configs and Python orchestration files are also bind-mounted from the host repo:
+- host `src/ASV_perception/EndToEnd/{Configs, ConvBKI, Propagation, *.py}` -> matching container paths
+- host `src/ASV_perception/EndToEnd/Segmentation/utils.py` -> container `Segmentation/utils.py`
+- host `src/ASV_perception/EndToEnd/Segmentation/grounding_dino/groundingdino/util/inference.py` -> matching container path
+
+The compiled third-party GroundingDINO / SAM2 package trees remain image-managed so their built CUDA extensions are not shadowed by the host checkout.
+
 That means:
 - `docker compose down` is safe
 - `docker compose down -v` will destroy the persisted perception runtime and model caches
 - a freshly recreated container can be repopulated deterministically by rerunning the host preparation script
 - once the preparation script has prewarmed the Hugging Face cache, Jetson perception can run without internet access
+- edits to the active perception configs and Python entrypoints now take effect in the running Jetson container without rebuilding the image
+- changes that affect image-managed compiled packages or other non-mounted `src/` contents still require rebuilding the image
 
 ## One-Time Host Preflight
 
@@ -126,7 +135,7 @@ This script:
 - builds the Docker image
 - force-recreates the container so it adopts the current Compose mounts
 - installs the known-good Jetson GPU perception stack
-- validates `torch`, `torchvision`, `sam2._C`, and `groundingdino._C`
+- validates the active perception config, checkpoints, `torch`, `torchvision`, `sam2._C`, and `groundingdino._C`
 - writes an install manifest to `/opt/asv/.venvs/ros2_grounded_sam2/asv_perception_install_manifest.txt`
 
 This is the safest way to avoid relying on old writable-layer state from a previously debugged container.
@@ -167,6 +176,28 @@ cd /home/asv/asv_autonomy
 ENABLE_LOCALIZATION=false ENABLE_FAKE_POSE=true FAKE_POSE_MODE=circle ./scripts/host/start_autonomy.sh
 ```
 
+6. In a second terminal, start the timestamp audit when you want skew logs:
+
+```bash
+cd /home/asv/asv_autonomy
+./scripts/host/start_timestamp_audit.sh
+```
+
+If you already have a stamped command topic, pass it in before the run:
+
+```bash
+cd /home/asv/asv_autonomy
+TIMESTAMP_AUDIT_COMMAND_TOPIC=/asv/thrust_cmd \
+TIMESTAMP_AUDIT_COMMAND_MSG_TYPE=geometry_msgs/msg/TwistStamped \
+./scripts/host/start_timestamp_audit.sh
+```
+
+The host autonomy launcher now also:
+- forwards `ASV_PERCEPTION_CONFIG` into the container
+- validates the persisted perception runtime before launching the node
+- fails fast by default if the perception runtime is missing or broken
+- can optionally rerun `/opt/asv/scripts/setup_perception.sh` in-place when `PERCEPTION_AUTO_SETUP=true`
+
 ## Clean Split In Practice
 
 Host-owned launchers:
@@ -177,8 +208,12 @@ Host-owned launchers:
 
 Container-owned autonomy entrypoints:
 - [`scripts/host/start_autonomy.sh`](/home/asv/asv_autonomy/scripts/host/start_autonomy.sh)
+- [`scripts/host/start_timestamp_audit.sh`](/home/asv/asv_autonomy/scripts/host/start_timestamp_audit.sh)
 - [`scripts/run_autonomy.sh`](/home/asv/asv_autonomy/scripts/run_autonomy.sh)
+- [`scripts/run_timestamp_audit.sh`](/home/asv/asv_autonomy/scripts/run_timestamp_audit.sh)
 - [`scripts/setup_perception.sh`](/home/asv/asv_autonomy/scripts/setup_perception.sh)
+- [`scripts/check_perception_runtime.sh`](/home/asv/asv_autonomy/scripts/check_perception_runtime.sh)
+- [`scripts/timestamp_audit.py`](/home/asv/asv_autonomy/scripts/timestamp_audit.py)
 
 Host ROS helper:
 - [`scripts/host/setup_ros.sh`](/home/asv/asv_autonomy/scripts/host/setup_ros.sh)
@@ -215,3 +250,34 @@ These docs and runtime artifacts together describe:
 - what must exist on the Jetson host
 - what is built and stored in Docker
 - what persists across container recreation
+
+## Timestamp Audit
+
+The timestamp audit is aimed at day-1 validation for system ID and controller work.
+
+What it measures live:
+- per-topic `receipt_ros_ns - header.stamp` on this audit node for:
+  - LiDAR
+  - camera
+  - IMU
+  - DRIFT pose
+  - DRIFT twist
+  - an optional stamped command topic
+- pairwise header skew for:
+  - camera vs LiDAR
+  - IMU vs LiDAR
+  - pose vs LiDAR
+  - command vs DRIFT twist when `TIMESTAMP_AUDIT_COMMAND_TOPIC` is set
+
+Where it writes:
+- host folder: `logs/timestamp_audit/<run_id>/`
+- files:
+  - `topic_latency.csv`
+  - `pair_skew.csv`
+  - `config.json`
+
+Important interpretation note:
+- this tool logs subscriber callback receipt time on the audit node, not the rosbag recorder's exact receive timestamp
+- if the audit node and rosbag recorder are both on the same Jetson, those receive times should usually be close, but they are not guaranteed to be identical
+- for controller and system-ID bringup, this is still a very useful first validation because it tells you whether the stack has small, stable skew or large, variable skew
+- if a future controller topic has no ROS `header`, the tool will warn and skip header-based command skew until that topic is stamped

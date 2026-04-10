@@ -1,0 +1,81 @@
+# Active online Blueboat perception config for the real Jetson + sensor stack.
+
+# ROS topics and frame expectations
+pc_topic: "/sensors/lidar/points"
+pose_topic: "/gt_pose"
+img_topic: "/sensors/camera/color/image_raw"
+camera_info_topic: "/sensors/camera/color/camera_info"
+expected_lidar_frame: "lidar_link"
+expected_camera_frame: "camera_color_optical_frame"
+sync_queue_size: 10
+sync_slop_sec: 0.2
+max_pose_skew_sec: 0.25
+tf_timeout_sec: 0.2
+publish: true
+
+# ConvBKI map settings
+grid_size: [128, 128, 9]
+min_bound: [-51.2, -51.2, -1.85]
+max_bound: [51.2, 51.2, -0.5]
+voxel_sizes: [0.8, 0.8, 0.15]
+f: 5
+
+# Open-vocabulary image segmentation settings.
+# `classes` defines the semantic index order consumed by BKI.
+segmentation:
+  sam2_variant: "small"
+  sam2_autocast_dtype: "bfloat16"
+  grounding_dino_autocast_dtype: "float16"
+  box_threshold: 0.30
+  text_threshold: 0.05
+  grounding_input_size: 640
+  grounding_max_size: 1024
+  grounding_allow_upscale: false
+  text_prompt: "grass-shore. tree. concreteplatform. water. redbuoy. blackbuoy. greenbuoy. orangebuoy. whitebuoy."
+  classes:
+    - name: "tree"
+      aliases: ["tree"]
+      color: [200, 255, 200]
+    - name: "grass-shore"
+      aliases: ["grass - shore", "grass-shore"]
+      color: [0, 102, 0]
+    - name: "concreteplatform"
+      aliases: ["concreteplatform", "concrete_platform"]
+      color: [160, 160, 160]
+    - name: "water"
+      aliases: ["water"]
+      color: [30, 60, 150]
+    - name: "redbuoy"
+      aliases: ["redbuoy", "red buoy"]
+      color: [255, 30, 30]
+    - name: "blackbuoy"
+      aliases: ["blackbuoy", "black buoy"]
+      color: [0, 0, 0]
+    - name: "greenbuoy"
+      aliases: ["greenbuoy", "green buoy"]
+      color: [150, 240, 80]
+    - name: "orangebuoy"
+      aliases: ["orangebuoy", "orange buoy"]
+      color: [255, 128, 0]
+    - name: "whitebuoy"
+      aliases: ["whitebuoy", "white buoy"]
+      color: [255, 255, 255]
+
+# Runtime inspection knobs for the active online path.
+debug:
+  filtered_lidar:
+    enabled: true
+    log_every_n_frames: 10
+    publish_transient_local_copy: true
+    transient_topic: "/filtered_lidar_debug"
+    publish_overlay: false
+    overlay_topic: "/filtered_lidar_overlay"
+    overlay_point_stride: 8
+    overlay_radius_px: 2
+  timing:
+    enabled: true
+    log_every_n_frames: 10
+  async_processing:
+    enabled: true
+    queue_size: 1
+    drop_oldest_when_full: true

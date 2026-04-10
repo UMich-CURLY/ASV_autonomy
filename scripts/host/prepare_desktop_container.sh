@@ -29,6 +29,10 @@ docker exec -i \
   "${CONTAINER_NAME}" \
   bash -lc '/opt/asv/scripts/setup_perception.sh'
 
+docker exec -i \
+  "${CONTAINER_NAME}" \
+  bash -lc '/opt/asv/scripts/check_perception_runtime.sh'
+
 echo
 echo "Desktop container preparation completed."
 echo "Use COMPOSE_FILE=${COMPOSE_FILE} when launching shared host scripts on desktop."

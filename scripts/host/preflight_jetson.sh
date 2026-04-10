@@ -235,6 +235,19 @@ if docker ps -a --format '{{.Names}}' | grep -qx "${CONTAINER_NAME}"; then
       warn "Container ${CONTAINER_NAME} does not currently mount ${mount_path}. Recreate it with ./scripts/host/prepare_jetson_container.sh to adopt the clean persisted layout."
     fi
   done
+
+  if docker ps --format '{{.Names}}' | grep -qx "${CONTAINER_NAME}"; then
+    if docker exec \
+      -e PERCEPTION_VENV_DIR="/opt/asv/.venvs/ros2_grounded_sam2" \
+      "${CONTAINER_NAME}" \
+      bash -lc '/opt/asv/scripts/check_perception_runtime.sh --quiet' >/dev/null 2>&1; then
+      pass "Perception runtime validates inside the running container"
+    else
+      warn "Container ${CONTAINER_NAME} is running, but the persisted perception runtime is incomplete or invalid. Run ./scripts/host/prepare_jetson_container.sh or set PERCEPTION_AUTO_SETUP=true when launching autonomy to repair it in-place."
+    fi
+  else
+    warn "Container ${CONTAINER_NAME} exists but is not running; skipping in-container perception runtime validation."
+  fi
 else
   warn "Container ${CONTAINER_NAME} does not exist yet. Build/start it before autonomy tests."
   warn "The named persistence volumes will be created automatically by ./scripts/host/prepare_jetson_container.sh."

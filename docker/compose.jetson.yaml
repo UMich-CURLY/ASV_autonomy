@@ -27,6 +27,19 @@ services:
       - ../config:/opt/asv/config
       - ../logs:/opt/asv/logs
       - ../scripts:/opt/asv/scripts
+      - ../src/ASV_perception/EndToEnd/Configs:/opt/asv/src/ASV_perception/EndToEnd/Configs
+      - ../src/ASV_perception/EndToEnd/ConvBKI:/opt/asv/src/ASV_perception/EndToEnd/ConvBKI
+      - ../src/ASV_perception/EndToEnd/Propagation:/opt/asv/src/ASV_perception/EndToEnd/Propagation
+      - ../src/ASV_perception/EndToEnd/BKINet.py:/opt/asv/src/ASV_perception/EndToEnd/BKINet.py
+      - ../src/ASV_perception/EndToEnd/config_utils.py:/opt/asv/src/ASV_perception/EndToEnd/config_utils.py
+      - ../src/ASV_perception/EndToEnd/geometry.py:/opt/asv/src/ASV_perception/EndToEnd/geometry.py
+      - ../src/ASV_perception/EndToEnd/ros2_node.py:/opt/asv/src/ASV_perception/EndToEnd/ros2_node.py
+      - ../src/ASV_perception/EndToEnd/ros2_node_pt_cloud.py:/opt/asv/src/ASV_perception/EndToEnd/ros2_node_pt_cloud.py
+      - ../src/ASV_perception/EndToEnd/transform_math.py:/opt/asv/src/ASV_perception/EndToEnd/transform_math.py
+      - ../src/ASV_perception/EndToEnd/utils.py:/opt/asv/src/ASV_perception/EndToEnd/utils.py
+      - ../src/ASV_perception/EndToEnd/Segmentation/utils.py:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/utils.py
+      - ../src/ASV_perception/EndToEnd/Segmentation/checkpoints/download_ckpts.sh:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/checkpoints/download_ckpts.sh
+      - ../src/ASV_perception/EndToEnd/Segmentation/grounding_dino/groundingdino/util/inference.py:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/grounding_dino/groundingdino/util/inference.py
       - ../urdf:/opt/asv/urdf
       - perception_venv:/opt/asv/.venvs
       - sam2_checkpoints:/opt/asv/src/ASV_perception/EndToEnd/Segmentation/checkpoints

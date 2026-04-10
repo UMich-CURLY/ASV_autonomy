@@ -5,6 +5,7 @@ This document marks the desktop sibling of the current Jetson deployment.
 The goal is to keep the architecture consistent across platforms:
 - the same ROS nodes, topics, TF contract, and runtime scripts
 - a different Docker base image and perception install backend where the platform requires it
+- the active perception configs and Python entrypoints bind-mounted from the host checkout so the running container is not ambiguous during iteration
 
 Current desktop-target files:
 - [`docker/Dockerfile.desktop`](/home/asv/asv_autonomy/docker/Dockerfile.desktop)

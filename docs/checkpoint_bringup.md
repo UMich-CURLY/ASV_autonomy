@@ -150,7 +150,9 @@ Notes:
 - The active online Blueboat perception path skips TorchSparse by default because it no longer uses the legacy SPVCNN path.
 - On Jetson, the perception subprocess now defaults to `TRANSFORMERS_OFFLINE=1` and `HF_HUB_OFFLINE=1` so field bringup does not silently depend on internet access.
 - If you intentionally need to refresh the Hugging Face cache, override those defaults for one run with `PERCEPTION_TRANSFORMERS_OFFLINE=0 PERCEPTION_HF_HUB_OFFLINE=0`.
-- If you change files under [`src/`](/home/asv/asv_autonomy/src), rebuild the Docker image before rerunning setup because `src/` is copied into the image rather than bind-mounted.
+- The active perception configs and Python entrypoints under [`src/ASV_perception/EndToEnd`](/home/asv/asv_autonomy/src/ASV_perception/EndToEnd) are bind-mounted into the Jetson container so the live perception runtime uses the host checkout directly.
+- The compiled GroundingDINO / SAM2 package trees are intentionally left image-managed so their built CUDA extensions continue to work.
+- If you change files outside those bind-mounted perception surfaces, rebuild the Docker image before rerunning setup because the remaining `src/` contents are still copied into the image.
 
 For a fake-pose bringup without GPS or `drift`:
 

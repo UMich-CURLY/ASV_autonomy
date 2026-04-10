@@ -14,6 +14,7 @@ FAKE_POSE_RATE_HZ="${FAKE_POSE_RATE_HZ:-20.0}"
 PERCEPTION_VENV_DIR="${PERCEPTION_VENV_DIR:-/opt/asv/.venvs/ros2_grounded_sam2}"
 PERCEPTION_TRANSFORMERS_OFFLINE="${PERCEPTION_TRANSFORMERS_OFFLINE:-auto}"
 PERCEPTION_HF_HUB_OFFLINE="${PERCEPTION_HF_HUB_OFFLINE:-auto}"
+ASV_PERCEPTION_CONFIG="${ASV_PERCEPTION_CONFIG:-}"
 PIDS=()
 
 cleanup() {
@@ -94,17 +95,26 @@ fi
 
 if [ "${ENABLE_PERCEPTION}" = "true" ]; then
   if [ -x "${PERCEPTION_VENV_DIR}/bin/python" ]; then
-    bash -lc "
-      source /opt/ros/humble/setup.bash
-      export VIRTUAL_ENV='${PERCEPTION_VENV_DIR}'
-      export PATH=\"${PERCEPTION_VENV_DIR}/bin:\$PATH\"
-      export LD_LIBRARY_PATH=\"${PERCEPTION_VENV_DIR}/lib/python3.10/site-packages/torch/lib:/usr/local/cuda/lib64:\${LD_LIBRARY_PATH:-}\"
-      export TRANSFORMERS_OFFLINE='${PERCEPTION_TRANSFORMERS_OFFLINE}'
-      export HF_HUB_OFFLINE='${PERCEPTION_HF_HUB_OFFLINE}'
-      export PYTHONUNBUFFERED=1
-      exec python /opt/asv/src/ASV_perception/EndToEnd/ros2_node_pt_cloud.py
-    " &
-    PIDS+=("$!")
+    if bash -lc "
+      export PERCEPTION_VENV_DIR='${PERCEPTION_VENV_DIR}'
+      export ASV_PERCEPTION_CONFIG='${ASV_PERCEPTION_CONFIG}'
+      exec /opt/asv/scripts/check_perception_runtime.sh --quiet
+    "; then
+      bash -lc "
+        source /opt/ros/humble/setup.bash
+        export VIRTUAL_ENV='${PERCEPTION_VENV_DIR}'
+        export PATH=\"${PERCEPTION_VENV_DIR}/bin:\$PATH\"
+        export LD_LIBRARY_PATH=\"${PERCEPTION_VENV_DIR}/lib/python3.10/site-packages/torch/lib:/usr/local/cuda/lib64:\${LD_LIBRARY_PATH:-}\"
+        export TRANSFORMERS_OFFLINE='${PERCEPTION_TRANSFORMERS_OFFLINE}'
+        export HF_HUB_OFFLINE='${PERCEPTION_HF_HUB_OFFLINE}'
+        export ASV_PERCEPTION_CONFIG='${ASV_PERCEPTION_CONFIG}'
+        export PYTHONUNBUFFERED=1
+        exec python /opt/asv/src/ASV_perception/EndToEnd/ros2_node_pt_cloud.py
+      " &
+      PIDS+=("$!")
+    else
+      echo "Skipping perception; the runtime at ${PERCEPTION_VENV_DIR} is incomplete or invalid. Run /opt/asv/scripts/setup_perception.sh or ./scripts/host/prepare_jetson_container.sh to repair it." >&2
+    fi
   elif [ "${ARCH}" = "aarch64" ]; then
     echo "Skipping perception; Jetson runs require the persisted venv at ${PERCEPTION_VENV_DIR}. Run /opt/asv/scripts/setup_perception.sh to create it." >&2
   elif conda env list | awk '{print $1}' | grep -qx "ros2_grounded_sam2"; then

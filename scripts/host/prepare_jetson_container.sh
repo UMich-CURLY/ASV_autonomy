@@ -47,12 +47,9 @@ docker exec -i \
   bash -lc '/opt/asv/scripts/setup_perception.sh'
 
 docker exec -i \
+  -e PERCEPTION_VENV_DIR="/opt/asv/.venvs/ros2_grounded_sam2" \
   "${CONTAINER_NAME}" \
-  bash -lc '
-    source /opt/asv/.venvs/ros2_grounded_sam2/bin/activate
-    export LD_LIBRARY_PATH="/opt/asv/.venvs/ros2_grounded_sam2/lib/python3.10/site-packages/torch/lib:/usr/local/cuda/lib64:${LD_LIBRARY_PATH:-}"
-    python -c "import torch, torchvision, sam2._C, groundingdino._C; print(\"torch\", torch.__version__); print(\"torchvision\", torchvision.__version__); print(\"cuda_available\", torch.cuda.is_available()); print(\"torch_cuda\", torch.version.cuda); print(\"gpu_name\", torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"none\"); print(\"sam2_cuda_ext ok\"); print(\"groundingdino_cuda_ext ok\")"
-  '
+  bash -lc '/opt/asv/scripts/check_perception_runtime.sh'
 
 echo
 echo "Jetson container preparation completed."
