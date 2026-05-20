@@ -1,0 +1,33 @@
+subscribers:
+  imu_topic: "/wamv/sensors/imu/imu/data"
+  gps_topic: "/wamv/sensors/gps/gps/fix"
+
+  # VRX Sydney world geodetic origin. Keep this fixed for repeatable sim ENU.
+  reference_position: [-33.724223, 150.679736, 0.0]
+
+  # BlueBoat GPS mount from blueboat_description/urdf/blueboat_core.xacro.
+  translation_gps_source_to_body: [-0.16979, 0.0, 0.205063]
+  rotation_gps_source_to_body: [1, 0, 0, 0]
+
+heading_correction:
+  cog_min_displacement_m: 0.1
+  cog_min_speed_mps: 0.1
+  yaw_bias_filter_gain: 0.01
+
+estimator_configs:
+  inekf_estimator: "config/blueboat_vrx/inekf_estimator.yaml"
+  imu_propagation: "config/blueboat_vrx/imu_propagation.yaml"
+  pose_correction: "config/blueboat_vrx/pose_correction.yaml"
+
+publishers:
+  pose_publish_rate: 100
+  pose_publish_topic: "/drift/pose"
+  pose_frame: "map"
+
+  path_publish_rate: 20
+  path_publish_topic: "/drift/path"
+
+  twist_publish_topic: "/drift/twist"
+  twist_frame: "base_link"
+
+  enable_slip_publisher: true

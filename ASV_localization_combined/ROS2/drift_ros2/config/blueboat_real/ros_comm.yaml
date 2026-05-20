@@ -1,0 +1,41 @@
+subscribers:
+  imu_topic: "/vectornav/imu"
+  gps_topic: "/navsatfix"
+
+  # Field note: add reference_position: [lat, lon, alt] here when you want a
+  # fixed ENU origin. If omitted, DRIFT initializes from the first GPS message.
+
+  # BlueBoat GPS mount from blueboat_description/urdf/blueboat_core.xacro.
+  translation_gps_source_to_body: [-0.16979, 0.0, 0.205063]
+  rotation_gps_source_to_body: [1, 0, 0, 0]
+
+heading_correction:
+  # Fallback map-frame yaw before GPS course-over-ground heading is available.
+  # 0 deg points the bow along map +X; 90 deg points it along map +Y.
+  initial_heading_offset_deg: 0.0
+  cog_min_displacement_m: 1.0
+  cog_min_speed_mps: 0.2
+  yaw_bias_filter_gain: 0.01
+
+estimator_configs:
+  inekf_estimator: "config/blueboat_real/inekf_estimator.yaml"
+  imu_propagation: "config/blueboat_real/imu_propagation.yaml"
+  pose_correction: "config/blueboat_real/pose_correction.yaml"
+
+publishers:
+  pose_publish_rate: 100
+  pose_publish_topic: "/localization/pose"
+  pose_publish_topic_aliases:
+    - "/gt_pose"
+    - "/drift/pose"
+  pose_frame: "map"
+
+  path_publish_rate: 20
+  path_publish_topic: "/localization/path"
+
+  twist_publish_topic: "/localization/twist"
+  twist_publish_topic_aliases:
+    - "/wamv/inekf_odom_correction/twist"
+  twist_frame: "base_link"
+
+  enable_slip_publisher: true
